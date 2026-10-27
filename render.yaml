@@ -1,0 +1,28 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# One web service with a persistent disk for the SQLite database.
+services:
+  - type: web
+    name: triageloop
+    runtime: python
+    plan: starter            # a persistent disk needs a paid instance; free instances lose data
+    buildCommand: pip install -r requirements.txt
+    # One worker keeps the in-memory login limiter consistent; threads handle concurrency.
+    startCommand: gunicorn --workers 1 --threads 8 --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /login
+    disk:
+      name: triageloop-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: TRIAGELOOP_ENV
+        value: production
+      - key: TRIAGELOOP_SECRET_KEY
+        generateValue: true
+      - key: TRIAGELOOP_DATABASE
+        value: /var/data/triageloop.db
+      - key: TRIAGELOOP_TIMEZONE
+        value: Asia/Kolkata
+      - key: TRIAGELOOP_BEHIND_PROXY
+        value: "1"

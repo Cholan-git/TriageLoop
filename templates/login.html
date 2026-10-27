@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ 'Set up' if mode == 'setup' else 'Sign in' }} · TriageLoop</title>
+  <script src="{{ url_for('static', filename='js/theme-init.js') }}"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">{% include "_logo.svg" %}</div>
+      <div><p class="brand-name">TriageLoop</p><p class="brand-sub">Emergency Care Intelligence</p></div>
+    </div>
+  </header>
+  <main class="auth-main">
+    <form class="card auth-card" method="post" novalidate>
+      <h1>{{ 'Create the administrator account' if mode == 'setup' else 'Sign in' }}</h1>
+      {% if mode == 'setup' %}
+      <p class="muted">No accounts exist yet. The first account becomes the administrator and can add clinicians later.</p>
+      {% endif %}
+      {% if error %}<div class="form-error" role="alert">{{ error }}</div>{% endif %}
+      <input type="hidden" name="csrf_token" value="{{ csrf }}">
+      <label class="field"><span>Username</span>
+        <input name="username" autocomplete="username" required minlength="3" maxlength="40" value="{{ username }}" autofocus></label>
+      <label class="field"><span>Password</span>
+        <input name="password" type="password" required minlength="{{ 10 if mode == 'setup' else 1 }}"
+               autocomplete="{{ 'new-password' if mode == 'setup' else 'current-password' }}"></label>
+      {% if mode == 'setup' %}
+      <label class="field"><span>Confirm password</span>
+        <input name="confirm" type="password" required minlength="10" autocomplete="new-password"></label>
+      <p class="hint">At least 10 characters.</p>
+      {% endif %}
+      <button class="btn primary btn-block" type="submit">{{ 'Create account and continue' if mode == 'setup' else 'Sign in' }}</button>
+      <p class="hint">Simulation software for training and demonstration. Not for clinical use.</p>
+    </form>
+  </main>
+</body>
+</html>

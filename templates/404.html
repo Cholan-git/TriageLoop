@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · TriageLoop</title>
+  <script src="{{ url_for('static', filename='js/theme-init.js') }}"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page">
+  <main class="auth-main">
+    <div class="card auth-card">
+      <h1>Page not found</h1>
+      <p class="muted">The address you opened does not exist.</p>
+      <a class="btn primary btn-block" href="{{ url_for('pages.index') }}">Go to the dashboard</a>
+    </div>
+  </main>
+</body>
+</html>

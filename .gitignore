@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.venv/
+venv/
+.env
+# Local database, generated secret key and runtime files
+instance/
+# Legacy event log from the pre-SQLite dashboard (left untouched if present)
+data/
+# Test artefacts
+tests/e2e/artifacts/

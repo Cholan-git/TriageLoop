@@ -1,0 +1,4 @@
+flask>=3.0,<4
+tzdata>=2024.1
+# Production web server for Linux hosting (not used on Windows: run python app.py there)
+gunicorn>=22; sys_platform != "win32"
